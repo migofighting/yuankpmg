@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPMG 专业服务展示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .kpmg-blue-gradient {
+            background: linear-gradient(135deg, #00338D 0%, #005EB8 100%);
+        }
+
+        .card-shadow {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-shadow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* 自定义模态框背景 */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        /* 动画 */
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .animate-slide-in {
+            animation: slideInRight 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+
+    <!-- 顶部导航 -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center cursor-pointer" onclick="showMainPage()">
+                    <img src="https://assets.kpmg.com/is/image/kpmg/kpmg-logo-1" alt="KPMG" class="h-8 w-auto" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTIwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iNDAiIGZpbGw9IiMwMDMzOEQiIHJ4PSI0Ii8+PHRleHQgeD0iNjAiIHk9IjI2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIyMiI+S1BNRzwvdGV4dD48L3N2Zz4='">
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="#" onclick="showMainPage()" class="text-sm font-bold text-[#00338D] hover:opacity-80 transition-opacity">首页</a>
+                    <a href="#services" onclick="showMainPage()" class="text-sm font-medium text-slate-600 hover:text-[#00338D] transition-colors">专业服务</a>
+                    <button onclick="openContactModal('咨询专家')" class="bg-[#00338D] text-white px-6 py-2.5 rounded-sm text-sm font-bold hover:bg-blue-800 transition-all shadow-md">预约咨询</button>
+                </div>
+
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="text-[#00338D] p-2 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端菜单 -->
+        <div id="mobileNav" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full left-0 shadow-xl">
+            <div class="px-4 py-6 space-y-4 text-center">
+                <a href="#" onclick="showMainPage(); closeMobileMenu()" class="block text-lg font-medium text-slate-700">首页</a>
+                <a href="#services" onclick="showMainPage(); closeMobileMenu()" class="block text-lg font-medium text-slate-700">专业服务</a>
+                <button onclick="openContactModal('咨询专家'); closeMobileMenu()" class="w-full bg-[#00338D] text-white py-3 rounded-sm font-bold">预约咨询</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mainContainer">
+        <!-- 英雄区域 -->
+        <section class="relative kpmg-blue-gradient py-24 lg:py-32 overflow-hidden">
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+                <p class="text-blue-200 font-bold tracking-widest uppercase text-xs mb-4">Professional Insight · Value Creation</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-8 leading-tight">专业洞察，驱动商业未来</h1>
+                <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-12 leading-relaxed opacity-90">
+                    KPMG 致力于为企业提供审计、税务及咨询解决方案。在复杂的商业环境中，我们协助您识别风险、把握机遇。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <a href="#services" class="bg-white text-[#00338D] px-10 py-4 rounded-sm font-bold shadow-xl hover:bg-slate-50 transition-all">探索解决方案</a>
+                    <button onclick="openContactModal('获取完整手册')" class="border-2 border-white/40 text-white px-10 py-4 rounded-sm font-bold hover:bg-white/10 transition-all">获取服务手册</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 服务展示入口 -->
+        <section id="services" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#00338D] mb-4">我们的专业领域</h2>
+                    <div class="w-20 h-1 bg-[#FF6900] mx-auto"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- 卡片 1 -->
+                    <div class="group bg-slate-50 p-8 rounded-lg border border-slate-100 card-shadow flex flex-col">
+                        <div class="w-14 h-14 bg-blue-100 text-[#00338D] rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-chart-line text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-4">IFRS17 财务管理</h3>
+                        <p class="text-slate-600 text-sm mb-8 leading-relaxed flex-grow">基于新准则的挑战与机遇，深度解析财险公司财务管理重塑路径。</p>
+                        <button onclick="showSubCategory('ifrs17')" class="text-sm font-bold text-[#00338D] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                            查看内容 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 卡片 2 -->
+                    <div class="group bg-slate-50 p-8 rounded-lg border border-slate-100 card-shadow flex flex-col">
+                        <div class="w-14 h-14 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-balance-scale text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-4">偿付能力与资本</h3>
+                        <p class="text-slate-600 text-sm mb-8 leading-relaxed flex-grow">洞察企业财务稳健的关键指标，优化资本结构以应对监管要求。</p>
+                        <button onclick="showSubCategory('solvency')" class="text-sm font-bold text-indigo-700 flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                            查看内容 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 卡片 3 -->
+                    <div class="group bg-slate-50 p-8 rounded-lg border border-slate-100 card-shadow flex flex-col">
+                        <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-shield-alt text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-4">风险与保险案例</h3>
+                        <p class="text-slate-600 text-sm mb-8 leading-relaxed flex-grow">从真实火灾案例剖析家庭保险配置策略，构建多维度的风险防线。</p>
+                        <button onclick="showSubCategory('insurance')" class="text-sm font-bold text-orange-600 flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                            查看内容 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- 卡片 4 -->
+                    <div class="group bg-slate-50 p-8 rounded-lg border border-slate-100 card-shadow flex flex-col">
+                        <div class="w-14 h-14 bg-purple-100 text-purple-700 rounded-lg flex items-center justify-center mb-6">
+                            <i class="fas fa-microchip text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-4">保险 AI 战略</h3>
+                        <p class="text-slate-600 text-sm mb-8 leading-relaxed flex-grow">开启智能保险新时代，解析人工智能如何赋能承保与风控环节。</p>
+                        <button onclick="showSubCategory('ai')" class="text-sm font-bold text-purple-700 flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                            查看内容 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 详情页面 (动态注入) -->
+    <div id="detailContainer" class="hidden min-h-screen py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button onclick="showMainPage()" class="flex items-center gap-2 text-slate-500 hover:text-[#00338D] transition-colors mb-12 font-bold text-sm">
+                <i class="fas fa-chevron-left"></i> 返回首页
+            </button>
+            
+            <div class="mb-16">
+                <h2 id="detailTitle" class="text-3xl font-bold text-[#00338D] mb-4">专题展示</h2>
+                <p id="detailDesc" class="text-slate-600 max-w-3xl leading-relaxed"></p>
+            </div>
+
+            <div id="pptGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- PPT 卡片 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-[#222] text-slate-400 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-slate-700 pb-16">
+            <div>
+                <img src="https://assets.kpmg.com/is/image/kpmg/kpmg-logo-1" class="h-6 brightness-0 invert opacity-60 mb-8">
+                <p class="text-sm leading-relaxed">KPMG 是一家全球性的专业服务网络。我们协助客户在动态的市场中通过创新的思维和深厚的行业经验实现价值增长。</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">联系信息</h4>
+                <div class="space-y-4 text-sm">
+                    <p class="flex items-start gap-3"><i class="fas fa-map-marker-alt text-blue-500 mt-1"></i> 上海市南京西路1266号恒隆广场2号楼</p>
+                    <p class="flex items-center gap-3"><i class="fas fa-envelope text-blue-500"></i> ay.yuan@kpmg.com</p>
+                    <p class="flex items-center gap-3"><i class="fas fa-phone text-blue-500"></i> +86 21 2212 3000</p>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">快速链接</h4>
+                <div class="flex flex-col space-y-3 text-sm">
+                    <a href="#" onclick="showMainPage()" class="hover:text-white transition-colors">首页</a>
+                    <a href="#services" class="hover:text-white transition-colors">专业服务</a>
+                    <a href="#" onclick="openContactModal('咨询专家')" class="hover:text-white transition-colors">在线预约</a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center pt-8 text-xs opacity-50">
+            <p>© 2023 KPMG International Cooperative. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 通用模态框 (摘要/预约) -->
+    <div id="uiModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="fixed inset-0 modal-overlay" onclick="closeModal()"></div>
+        <div class="relative bg-white w-full max-w-2xl rounded-sm shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-in">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 id="modalTitle" class="text-xl font-bold text-[#00338D]"></h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-800 transition-colors p-2">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="modalBody" class="p-8 overflow-y-auto custom-scrollbar flex-grow">
+                <!-- 动态内容 -->
+            </div>
+            <div id="modalFooter" class="p-6 border-t border-slate-100 flex justify-end gap-4 bg-slate-50">
+                <!-- 动态按钮 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义 Toast 通知 -->
+    <div id="toastContainer" class="fixed bottom-10 right-10 z-[200] space-y-4 pointer-events-none"></div>
+
+    <script>
+        // 初始化 EmailJS
+        (function() {
+            emailjs.init("LdXA13X-luabZOMlg");
+        })();
+
+        const pptData = {
+            ifrs17: {
+                title: "财险公司新准则财务管理分析专题",
+                desc: "探索 IFRS17 核心变革对财险公司财务管理的深远影响，识别实施挑战并提出应对策略。",
+                items: [
+                    {
+                        title: "财险公司新准则财务管理分析",
+                        icon: "fa-file-invoice-dollar",
+                        summary: "深入剖析保险服务收入确认、合同负债计量及成本处理等核心环节。基于实操经验提供流程优化方案。",
+                        filename: "财险公司新准则财务管理分析_20251215_214632.pptx"
+                    },
+                    {
+                        title: "新准则下财险财管解码",
+                        icon: "fa-chart-pie",
+                        summary: "详尽解析 IFRS17 冲击财险财务底层逻辑，包括权责发生制转变、利润表重构等关键洞察。",
+                        filename: "新准则下财险财管解码.pptx"
+                    }
+                ]
+            },
+            solvency: {
+                title: "偿付能力资本管理专题",
+                desc: "深度洞察企业财务稳健指标，分析资本结构管理对偿债能力的影响及优化建议。",
+                items: [
+                    {
+                        title: "偿付能力资本管理分析报告",
+                        icon: "fa-balance-scale",
+                        summary: "系统介绍偿债能力衡量指标，剖析资本结构优化的具体路径，助力企业满足合规及稳健经营要求。",
+                        filename: "偿付能力资本管理分析_20251216_100744.pptx"
+                    }
+                ]
+            },
+            insurance: {
+                title: "风险管理与保险案例专题",
+                desc: "通过真实火灾案例，揭示个人及家庭面临的潜在风险，提供科学的资产保护与投保建议。",
+                items: [
+                    {
+                        title: "香港大火与保险思考报告",
+                        icon: "fa-fire-extinguisher",
+                        summary: "剖析风险认知误区，详细对比家庭必备保险产品，并提供高效的理赔流程实战指南。",
+                        filename: "香港大火与保险思考_20251216_101248.pptx"
+                    }
+                ]
+            },
+            ai: {
+                title: "保险公司 AI 战略专题",
+                desc: "开启智能保险新时代，探讨 AI 在保险业务各环节的赋能价值、优势及面临的挑战。",
+                items: [
+                    {
+                        title: "保险公司 AI 战略规划",
+                        icon: "fa-robot",
+                        summary: "解析 AI 在核保、定损、反欺诈等环节的应用现状。展望人工智能如何重构保险行业价值链。",
+                        filename: "保险公司的AI战略_20251216_101035.pptx"
+                    }
+                ]
+            }
+        };
+
+        // 导航逻辑
+        function showMainPage() {
+            document.getElementById('mainContainer').classList.remove('hidden');
+            document.getElementById('detailContainer').classList.add('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showSubCategory(category) {
+            const data = pptData[category];
+            if (!data) return;
+
+            document.getElementById('detailTitle').innerText = data.title;
+            document.getElementById('detailDesc').innerText = data.desc;
+
+            const grid = document.getElementById('pptGrid');
+            grid.innerHTML = '';
+
+            data.items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-200 rounded-sm overflow-hidden flex flex-col card-shadow";
+                card.innerHTML = `
+                    <div class="h-32 bg-slate-50 flex items-center justify-center border-b border-slate-100">
+                        <i class="fas ${item.icon} text-4xl text-[#00338D]"></i>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h4 class="font-bold text-slate-900 mb-3">${item.title}</h4>
+                        <p class="text-xs text-slate-500 mb-8 leading-relaxed flex-grow line-clamp-3">${item.summary}</p>
+                        <div class="flex gap-2">
+                            <button onclick="previewContent('${item.title}', '${item.summary}', '${item.filename}')" class="flex-1 text-center py-2.5 bg-slate-100 text-[#00338D] text-xs font-bold rounded-sm hover:bg-slate-200 transition-colors">摘要</button>
+                            <button onclick="openContactModal('${item.title}')" class="flex-1 text-center py-2.5 bg-[#00338D] text-white text-xs font-bold rounded-sm hover:bg-blue-800 transition-all shadow-sm">预约方案</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.getElementById('mainContainer').classList.add('hidden');
+            document.getElementById('detailContainer').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // 模态框逻辑
+        const modal = document.getElementById('uiModal');
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function previewContent(title, summary, filename) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="space-y-6">
+                    <div class="bg-blue-50 border-l-4 border-[#00338D] p-6 rounded-sm">
+                        <h4 class="text-sm font-bold text-[#00338D] mb-2 uppercase tracking-wider">报告内容摘要</h4>
+                        <p class="text-slate-700 leading-relaxed text-sm">${summary}</p>
+                    </div>
+                    <p class="text-xs text-slate-400 italic font-medium">* 该报告版权归 KPMG 所有。完整版报告包含详细的数据分析模型与行业对标建议。</p>
+                </div>
+            `;
+            document.getElementById('modalFooter').innerHTML = `
+                <button onclick="closeModal()" class="px-6 py-2 text-sm font-bold text-slate-400">关闭</button>
+                <button onclick="downloadPPT('${filename}')" class="px-8 py-2.5 bg-[#00338D] text-white text-sm font-bold rounded-sm shadow-md flex items-center gap-2 hover:bg-blue-900">
+                    <i class="fas fa-download"></i> 立即下载 PPT
+                </button>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function openContactModal(subject) {
+            document.getElementById('modalTitle').innerText = "预约专业咨询";
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+            document.getElementById('modalBody').innerHTML = `
+                <form id="contactForm" class="space-y-6">
+                    <input type="hidden" name="service" value="${subject}">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">姓名 *</label>
+                            <input type="text" name="name" required class="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-[#00338D] outline-none transition-all text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">公司名称 *</label>
+                            <input type="text" name="company" required class="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-[#00338D] outline-none transition-all text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">电子邮箱 *</label>
+                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-[#00338D] outline-none transition-all text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">联系电话 *</label>
+                            <input type="tel" name="phone" required class="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-[#00338D] outline-none transition-all text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">预约日期 *</label>
+                            <input type="date" name="date" value="${tomorrowStr}" min="${tomorrowStr}" required class="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-[#00338D] outline-none transition-all text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">倾向时间 *</label>
+                            <select name="time" class="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-[#00338D] outline-none bg-white text-sm">
+                                <option value="09:30-11:00">上午 09:30 - 11:00</option>
+                                <option value="14:00-15:30">下午 14:00 - 15:30</option>
+                                <option value="16:00-17:30">下午 16:00 - 17:30</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-2">您的具体需求</label>
+                        <textarea name="message" rows="3" placeholder="请简述您希望探讨的问题..." class="w-full px-4 py-3 rounded-sm border border-slate-200 focus:border-[#00338D] outline-none transition-all text-sm"></textarea>
+                    </div>
+                </form>
+            `;
+            document.getElementById('modalFooter').innerHTML = `
+                <button onclick="closeModal()" class="px-6 py-2 text-sm font-bold text-slate-400">取消</button>
+                <button id="submitBtn" onclick="handleFormSubmit()" class="px-10 py-2.5 bg-[#00338D] text-white text-sm font-bold rounded-sm shadow-md hover:bg-blue-900 transition-all">提交预约请求</button>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // 核心下载功能 (修复完成)
+        function downloadPPT(filename) {
+            const link = document.createElement('a');
+            // 注意：这里 filename 必须与您的 PPT 文件名完全一致，并存放在同一目录下
+            link.href = filename; 
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast("✅ 下载已开始", `正在获取：${filename}`);
+            closeModal();
+        }
+
+        // 邮件发送功能
+        async function handleFormSubmit() {
+            const form = document.getElementById('contactForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerText;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> 发送中...';
+
+            const data = Object.fromEntries(new FormData(form).entries());
+            data.submit_time = new Date().toLocaleString();
+
+            try {
+                await emailjs.send("service_tgjhf2j", "template_wfd4dmp", data);
+                showToast("✅ 提交成功", "您的预约已送达，专家将尽快与您联系。");
+                closeModal();
+            } catch (err) {
+                console.error(err);
+                showToast("❌ 提交失败", "暂时无法连接服务器，请稍后重试。");
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        }
+
+        // 通知系统
+        function showToast(title, msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = "bg-white border-l-4 border-[#00338D] p-5 rounded-sm shadow-2xl w-80 pointer-events-auto animate-slide-in flex gap-4";
+            toast.innerHTML = `
+                <div class="flex-grow">
+                    <h5 class="font-bold text-slate-900 text-sm mb-1">${title}</h5>
+                    <p class="text-xs text-slate-500">${msg}</p>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-slate-300 hover:text-slate-600 transition-colors"><i class="fas fa-times"></i></button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(20px)';
+                toast.style.transition = 'all 0.5s';
+                setTimeout(() => toast.remove(), 500);
+            }, 6000);
+        }
+
+        // 移动端菜单控制
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        mobileMenuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
+        function closeMobileMenu() { mobileNav.classList.add('hidden'); }
+    </script>
+</body>
+</html>
